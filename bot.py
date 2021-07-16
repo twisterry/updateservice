@@ -304,7 +304,7 @@ async def chkup(ctx):
         await ctx.send('Das Update wird installiert...')
         update(__file__, "https://raw.githubusercontent.com/twisterry/updateservice/main/bot.py")
         update("SETTINGS.INI", "https://raw.githubusercontent.com/twisterry/updateservice/main/SETTINGS.INI")
-        ctx.send('Update Erfolgreich! Neustart..')
+        await ctx.send('Update Erfolgreich! Neustart..')
         restart_program()
     else:
         await ctx.send('Es ist kein Update verfügbar.')
