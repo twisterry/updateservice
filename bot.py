@@ -299,12 +299,12 @@ async def kick (ctx, member:discord.User=None, reason =None):
     
 @bot.command()
 async def chkup(ctx):
-    print (isUpToDate("bot.py", "https://twcloud.ml/bot.py"))
-    if isUpToDate("bot.py", "https://twcloud.ml/bot.py") or isUpToDate("SETTINGS.INI", "https://twcloud.ml/SETTINGS.INI") == False:
+    print (isUpToDate("bot.py", "https://raw.githubusercontent.com/twisterry/updateservice/main/bot.py"))
+    if isUpToDate("bot.py", "https://raw.githubusercontent.com/twisterry/updateservice/main/bot.py") or isUpToDate("SETTINGS.INI", "https://raw.githubusercontent.com/twisterry/updateservice/main/SETTINGS.INI") == False:
         await ctx.send('> Ein Update ist verfügbar!')
         await ctx.send('> Das Update wird installiert...')
-        update(__file__, "https://twcloud.ml/bot.py")
-        update("SETTINGS.INI", "https://twcloud.ml/SETTINGS.INI")
+        update(__file__, "https://raw.githubusercontent.com/twisterry/updateservice/main/bot.py")
+        update("SETTINGS.INI", "https://raw.githubusercontent.com/twisterry/updateservice/main/SETTINGS.INI")
         await ctx.send('> Update Erfolgreich! Neustart..')
         channel2 = ctx.message.channel
         messages = []
