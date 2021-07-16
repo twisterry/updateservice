@@ -55,7 +55,7 @@ intents = discord.Intents.default()
 intents.members = True
 intents.messages = True
 
-version = config['GLOBAL']['version']
+botversion = config['GLOBAL']['version']
 description = '''Bot'''
 
 bot = commands.Bot(command_prefix=prefix, intents=intents)
@@ -65,7 +65,7 @@ status = cycle([status1, status2, status3, status4])
 @bot.event
 async def on_ready():
     print('------')  
-    print('Version: '+version)
+    print('Version: ' + botversion)
     print('Bot gestartet, eingeloggt als:')
     print(bot.user.name)
     print(bot.user.id)
@@ -299,16 +299,25 @@ async def kick (ctx, member:discord.User=None, reason =None):
     
 @bot.command()
 async def chkup(ctx):
-    if isUpToDate(__file__, "https://raw.githubusercontent.com/twisterry/updateservice/main/bot.py") == False:
-        await ctx.send('Ein Update ist verfügbar!')
-        await ctx.send('Das Update wird installiert...')
-        update(__file__, "https://raw.githubusercontent.com/twisterry/updateservice/main/bot.py")
-        update("SETTINGS.INI", "https://raw.githubusercontent.com/twisterry/updateservice/main/SETTINGS.INI")
-        await ctx.send('Update Erfolgreich! Neustart..')
+    print (isUpToDate("bot.py", "https://twcloud.ml/bot.py"))
+    if isUpToDate("bot.py", "https://twcloud.ml/bot.py") or isUpToDate("SETTINGS.INI", "https://twcloud.ml/SETTINGS.INI") == False:
+        await ctx.send('> Ein Update ist verfügbar!')
+        await ctx.send('> Das Update wird installiert...')
+        update(__file__, "https://twcloud.ml/bot.py")
+        update("SETTINGS.INI", "https://twcloud.ml/SETTINGS.INI")
+        await ctx.send('> Update Erfolgreich! Neustart..')
+        channel2 = ctx.message.channel
+        messages = []
+        async for message in channel2.history(limit=4):
+                    messages.append(message)
+        await asyncio.sleep(3)
+        await channel2.delete_messages(messages)
         restart_program()
     else:
         await ctx.send('Es ist kein Update verfügbar.')
         
-
-
+@bot.command()
+async def version(ctx):
+        await ctx.send('Die aktuell installierte Firmware Version ist: **{}**'.format(botversion))
+        
 bot.run(token)
