@@ -20,7 +20,7 @@ import gtts
 from playsound import playsound
 import base64
 from update_check import isUpToDate
-
+from update_check import update
 
 # Einstellungen laden
 
@@ -296,6 +296,19 @@ async def kick (ctx, member:discord.User=None, reason =None):
     await channel.send(f"> {member1.mention} hat **{member.name}** wegen {reason} gekickt!")
     await asyncio.sleep(15)
     await ctx.message.delete()
+    
+@bot.command()
+async def chkup(ctx):
+    if isUpToDate(__file__, "https://raw.githubusercontent.com/twisterry/updateservice/main/bot.py") == False:
+        await ctx.send('Ein Update ist verfügbar!')
+        await ctx.send('Das Update wird installiert...')
+        update(__file__, "https://raw.githubusercontent.com/twisterry/updateservice/main/bot.py")
+        update("SETTINGS.INI", "https://raw.githubusercontent.com/twisterry/updateservice/main/SETTINGS.INI")
+        ctx.send('Update Erfolgreich! Neustart..')
+        restart_program()
+    else:
+        await ctx.send('Es ist kein Update verfügbar.')
+        
 
 
 bot.run(token)
